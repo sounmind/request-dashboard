@@ -13,6 +13,12 @@ const Wrapper = styled(FlexColumnBox)`
   padding: 24px 16px;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
+
+  @media only screen and (max-width: 375px) {
+    padding: 20px 16px 16px 16px;
+    justify-content: space-between;
+    width: 330px;
+  }
 `;
 
 const Status = styled.div`
@@ -20,13 +26,13 @@ const Status = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 55px;
   height: 24px;
   border-radius: 12px;
   padding: 2px 8px;
   color: #ffa000;
   font-size: 12px;
-  line-height: 20px;
   border: 1px solid #ffa000;
   background-color: white;
 `;

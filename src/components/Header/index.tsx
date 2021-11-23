@@ -14,6 +14,10 @@ const Wrapper = styled.header`
   padding: 25px 40px;
   color: white;
   background-color: #1565c0;
+
+  @media only screen and (max-width: 375px) {
+    padding: 25px 20px;
+  }
 `;
 
 const Header: React.FC<{ children: ReactNode }> = ({ children }) => {
