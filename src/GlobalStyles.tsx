@@ -26,7 +26,17 @@ export default createGlobalStyle`
   }
 
   body {
-    padding: 110px 155px;
+    padding-top: 110px;
+    padding-left: 25px;
+    padding-right: 25px;
     max-width: 1440px;
+    min-width: 360px;
+
+    @media only screen and (max-width: 375px) {
+      padding-left: 20px;
+      padding-right: 20px;
+      max-height: 812px;
+      overflow-y: scroll;
+    }
   }
 `;
