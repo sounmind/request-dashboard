@@ -28,6 +28,7 @@ const FilterResetButton = styled(FlexRowBox.withComponent("button"))`
   gap: 10px;
   background-color: transparent;
   border: 0;
+  min-width: 100px;
 
   :hover {
     border: 1px solid gray;
@@ -64,13 +65,15 @@ const App: React.FC = () => {
     setIsMobileMenu((prev) => !prev);
   };
 
+  const isMobileSize = windowSize.width <= 375;
+
   return (
     <Wrapper>
       {isMobileMenu && (
         <MobileMenu handleClose={() => setIsMobileMenu(false)} />
       )}
       <Header>
-        {windowSize.width <= 375 && (
+        {isMobileSize && (
           <GiHamburgerMenu onClick={handleClickMenu} size={20}>
             icon
           </GiHamburgerMenu>
@@ -78,7 +81,7 @@ const App: React.FC = () => {
         <FlexRowBox style={{ gap: "10px" }}>
           <img alt="logo" src="/images/logo.png" />
         </FlexRowBox>
-        {windowSize.width > 375 && (
+        {!isMobileSize && (
           <FlexRowBox style={{ gap: "30px", alignItems: "center" }}>
             <FlexRowBox style={{ gap: "8px", alignItems: "center" }}>
               <img alt="icon-building" src="/images/icon-building.png" />
@@ -110,10 +113,12 @@ const App: React.FC = () => {
             options={MATERIALS}
             handleChange={handleChangeMaterial}
           />
-          <FilterResetButton onClick={handleClickResetFilter}>
-            <GrPowerReset />
-            필터링 리셋
-          </FilterResetButton>
+          {!isMobileSize && (
+            <FilterResetButton onClick={handleClickResetFilter}>
+              <GrPowerReset />
+              필터링 리셋
+            </FilterResetButton>
+          )}
         </FlexRowBox>
         <ControlledSwitch
           description="상담 중인 요청만 보기"
