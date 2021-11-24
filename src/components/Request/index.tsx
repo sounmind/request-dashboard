@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { IProductionRequest } from "../../types";
+
 import Button from "../Button";
 import FlexColumnBox from "../Layout/FlexColumnBox";
 import FlexRowBox from "../Layout/FlexRowBox";
+
+import { IProductionRequest } from "../../types";
+import { STATUS } from "../../constants";
 
 const Wrapper = styled(FlexColumnBox)`
   min-width: 320px;
@@ -13,6 +16,10 @@ const Wrapper = styled(FlexColumnBox)`
   padding: 24px 16px;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
+
+  :hover {
+    border: 1px solid blue;
+  }
 
   @media only screen and (max-width: 375px) {
     padding: 20px 16px 16px 16px;
@@ -60,7 +67,7 @@ const Request: React.FC<IProductionRequest> = ({
       <FlexColumnBox style={{ gap: "4px" }}>
         <FlexRowBox style={{ justifyContent: "space-between" }}>
           <h2 style={{ fontSize: "16px" }}>{title}</h2>
-          {status === "상담중" && <Status>{status}</Status>}
+          {status === STATUS.ongoing && <Status>{status}</Status>}
         </FlexRowBox>
         <p style={{ fontSize: "14px", height: "20px", lineHeight: "20px" }}>
           {client}

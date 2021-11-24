@@ -1,5 +1,6 @@
-import Switch from "@mui/material/Switch";
 import styled from "styled-components";
+import Switch from "@mui/material/Switch";
+
 import FlexRowBox from "../Layout/FlexRowBox";
 
 const Wrapper = styled(FlexRowBox)`
