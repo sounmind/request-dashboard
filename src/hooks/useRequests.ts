@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IProductionRequest } from "../types";
 
 const useRequests = () => {
-  const [requests, setRequests] = useState<null | IProductionRequest[]>(null);
+  const [requests, setRequests] = useState<[] | IProductionRequest[]>([]);
 
   useEffect(() => {
     (async () => {

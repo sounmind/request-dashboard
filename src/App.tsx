@@ -1,55 +1,64 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { GrPowerReset } from "react-icons/gr";
+
+import Header from "./components/Header";
 import Description from "./components/Description";
 import Filter from "./components/Filter";
-import Header from "./components/Header";
-import FlexRowBox from "./components/Layout/FlexRowBox";
 import MultipleSelectCheckmarks from "./components/MultipleSelectCheckmarks";
-import Request from "./components/Request";
-import RequestList from "./components/RequestList";
 import ControlledSwitch from "./components/Swtich";
-import useMultiSelect from "./hooks/useMultiSelect";
+import MobileMenu from "./components/MobileMenu";
+import RequestList from "./components/RequestList";
+import Request from "./components/Request";
+import FlexRowBox from "./components/Layout/FlexRowBox";
 
 import useRequests from "./hooks/useRequests";
 import useWindowSize from "./hooks/useScreenWidth";
+import useRequestFilter from "./hooks/useRequestFilter";
 
-import { GiHamburgerMenu } from "react-icons/gi";
-import MobileMenu from "./components/MobileMenu";
+import { MATERIALS, METHODS } from "./constants";
 
 const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
 `;
 
-const FILTER = {
-  MATERIAL: {
-    name: "재료",
-    options: ["알루미늄", "탄소강", "구리", "합금강", "강철"],
-  },
-  METHOD: {
-    name: "가공방식",
-    options: ["밀링", "선반"],
-  },
-};
+const FilterResetButton = styled(FlexRowBox.withComponent("button"))`
+  gap: 10px;
+  background-color: transparent;
+  border: 0;
 
-function App() {
+  :hover {
+    border: 1px solid gray;
+    border-radius: 5px;
+  }
+
+  :active {
+    background-color: lightgray;
+  }
+`;
+
+const App: React.FC = () => {
   const { requests } = useRequests();
-  const { selected: selectedMethods, handleChange: handleChangeMethod } =
-    useMultiSelect({ name: "가공방식" });
-  const { selected: selectedMaterials, handleChange: handleChangeMaterial } =
-    useMultiSelect({ name: "재료" });
-  const [isConsultingChcked, setIsConsultingChcked] = useState(false);
+  const {
+    filteredRequests,
+
+    selectedMaterials,
+    selectedMethods,
+    isConsultingChecked,
+
+    handleChangeMethod,
+    handleChangeMaterial,
+    handleToggleViewConsulting,
+    handleClickResetFilter,
+  } = useRequestFilter(requests);
+
   const windowSize = useWindowSize({
     width: window.innerWidth,
     height: window.innerHeight,
   });
   const [isMobileMenu, setIsMobileMenu] = useState(false);
-
-  const handleToggleViewConsulting = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setIsConsultingChcked(event.target.checked);
-  };
 
   const handleClickMenu = () => {
     setIsMobileMenu((prev) => !prev);
@@ -88,33 +97,37 @@ function App() {
         </p>
       </Description>
       <Filter>
-        <FlexRowBox style={{ gap: "8px" }}>
+        <FlexRowBox style={{ gap: "8px", alignItems: "center" }}>
           <MultipleSelectCheckmarks
-            name={FILTER.METHOD.name}
+            name={"가공 방식"}
             selected={selectedMethods}
-            options={FILTER.METHOD.options}
+            options={METHODS}
             handleChange={handleChangeMethod}
           />
           <MultipleSelectCheckmarks
-            name={FILTER.MATERIAL.name}
+            name={"재료"}
             selected={selectedMaterials}
-            options={FILTER.MATERIAL.options}
+            options={MATERIALS}
             handleChange={handleChangeMaterial}
           />
+          <FilterResetButton onClick={handleClickResetFilter}>
+            <GrPowerReset />
+            필터링 리셋
+          </FilterResetButton>
         </FlexRowBox>
         <ControlledSwitch
           description="상담 중인 요청만 보기"
-          checked={isConsultingChcked}
+          checked={isConsultingChecked}
           handleToggle={handleToggleViewConsulting}
         />
       </Filter>
       <RequestList>
-        {requests?.map((request) => (
+        {filteredRequests?.map((request) => (
           <Request key={request.id} {...request} />
         ))}
       </RequestList>
     </Wrapper>
   );
-}
+};
 
 export default App;
