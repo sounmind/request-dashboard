@@ -40,6 +40,12 @@ const FilterResetButton = styled(FlexRowBox.withComponent("button"))`
   }
 `;
 
+const EmptyResult = styled(FlexRowBox)`
+  width: 100%;
+  height: 200px;
+  border: 1px solid lightgray;
+`;
+
 const App: React.FC = () => {
   const { requests } = useRequests();
   const {
@@ -131,6 +137,9 @@ const App: React.FC = () => {
           <Request key={request.id} {...request} />
         ))}
       </RequestList>
+      {filteredRequests.length === 0 && (
+        <EmptyResult center>조건에 맞는 견적 요청이 없습니다.</EmptyResult>
+      )}
     </Wrapper>
   );
 };
